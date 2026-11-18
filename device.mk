@@ -1,1 +1,1 @@
-LOCAL_PATH := device/tecno/TECNO-BC1
+LOCAL_PATH := device/tecno/BC1
