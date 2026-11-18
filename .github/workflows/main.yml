@@ -94,7 +94,7 @@ jobs:
           nproc
 
       - name: Restore ccache
-        uses: actions/cache@v4
+        uses: actions/cache/restore@v4
         with:
           path: ${{ env.CCACHE_DIR }}
           key: ccache-${{ env.DEVICE }}-${{ github.run_id }}
@@ -155,6 +155,31 @@ jobs:
           mka recoveryimage -j"${JOBS}"
           ccache -s
 
+      - name: Save ccache
+        if: always()
+        uses: actions/cache/save@v4
+        with:
+          path: ${{ env.CCACHE_DIR }}
+          key: ccache-${{ env.DEVICE }}-${{ github.run_id }}
+
+      - name: Image composition
+        if: always()
+        run: |
+          OUT="$ANDROID_ROOT/out/target/product/${DEVICE}"
+          {
+            echo "== built files =="
+            ls -l "$OUT"/kernel "$OUT"/ramdisk-recovery.img "$OUT"/recovery.img 2>/dev/null || true
+            echo
+            echo "== recovery root by subdirectory (KB) =="
+            du -sk "$OUT"/recovery/root/* 2>/dev/null | sort -n || true
+            echo
+            echo "== 45 largest files (bytes) =="
+            find "$OUT"/recovery/root -type f -printf '%s %p\n' 2>/dev/null | sort -n | tail -45 || true
+            echo
+            echo "== recovery root total (KB) =="
+            du -sk "$OUT"/recovery/root 2>/dev/null || true
+          } | tee "$RUNNER_TEMP/composition.txt"
+
       - name: Check image size
         run: |
           IMG="$ANDROID_ROOT/out/target/product/${DEVICE}/recovery.img"
@@ -194,5 +219,6 @@ jobs:
             android/out/verbose.log.gz
             android/out/soong.log
             android/out/error.log
+            ${{ runner.temp }}/composition.txt
           if-no-files-found: ignore
           retention-days: 7
