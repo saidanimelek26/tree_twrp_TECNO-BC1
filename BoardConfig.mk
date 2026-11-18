@@ -65,6 +65,9 @@ TW_SCREEN_BLANK_ON_BOOT := true
 TW_USE_TOOLBOX := true
 TW_EXCLUDE_TWRPAPP := true
 TW_EXCLUDE_SUPERSU := true
+TW_EXCLUDE_NANO := true
+TW_EXCLUDE_BASH := true
+TW_EXCLUDE_TZDATA := true
 TW_BRIGHTNESS_PATH := "/sys/class/leds/lcd-backlight/brightness"
 TW_INCLUDE_CRYPTO := true
 TW_INCLUDE_CRYPTO_FBE := true
@@ -73,7 +76,3 @@ RECOVERY_SDCARD_ON_DATA := true
 
 # Assert
 TARGET_OTA_ASSERT_DEVICE := BC1,TECNO-BC1
-
-# Debug
-TWRP_INCLUDE_LOGCAT := true
-TARGET_USES_LOGD := true
