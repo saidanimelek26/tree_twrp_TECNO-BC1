@@ -1,4 +1,4 @@
-DEVICE_PATH := device/tecno/BC1
+DEVICE_PATH := $(TARGET_DEVICE_DIR)
 
 # Minimal manifest build
 ALLOW_MISSING_DEPENDENCIES := true

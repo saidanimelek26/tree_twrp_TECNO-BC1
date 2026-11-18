@@ -1,6 +1,5 @@
 $(call inherit-product, $(SRC_TARGET_DIR)/product/full_base_telephony.mk)
 $(call inherit-product, vendor/omni/config/common.mk)
-$(call inherit-product, device/tecno/BC1/device.mk)
 
 PRODUCT_DEVICE := BC1
 PRODUCT_NAME := omni_BC1
